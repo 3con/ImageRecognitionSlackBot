@@ -21,8 +21,8 @@ const params = {
 };
 
 // define group or channel that we are posting to
-const channelOrGroup = 'group';
-const postOrGroupName = 'jono_button_test';
+const channelOrGroup = 'channel';
+const postOrGroupName = 'general';
 
 // function to send a message to either a group (private channel) or a channel
 function sendMessage(messageText) {
@@ -34,7 +34,8 @@ function sendMessage(messageText) {
     }
 }
 
-function tellMeWhatThisIs(base64Image) {
+// send image to AWS Rekognition and send a message with the results
+function queryRekognition(base64Image) {
     rekognition.detectLabels({
         Image: {
             Bytes: base64Image
@@ -43,22 +44,23 @@ function tellMeWhatThisIs(base64Image) {
         if (err)
             console.log(err);
         else
-            sendMessage(`That looks like ${data.Labels[0].Name} or a ${data.Labels[1].Name} to me`);
+            sendMessage(`That looks like ${data.Labels[0].Name.toLocaleLowerCase()} or a ${data.Labels[1].Name.toLocaleLowerCase()} to me`);
     });
 }
 
+// listen for messages to
 bot.on('message', function (data) {
     // all ingoing events https://api.slack.com/rtm
-    console.log(data);
+    //console.log(data);
 
     // check that the message has text
     if (data.text) {
         // start a new game
-        if (data.text.toUpperCase().startsWith('@WHAT-IS-THIS-BOT WHAT IS THIS?')) {
+        if (data.text.toUpperCase().startsWith('@WHAT-IS-THIS-BOT WHAT IS THIS')) {
             console.log('we have a match');
-            let url = data.text.substring('@WHAT-IS-THIS-BOT WHAT IS THIS?'.length + 2, data.text.length - 1);
+            let url = data.text.substring('@WHAT-IS-THIS-BOT WHAT IS THIS'.length + 2, data.text.length - 1);
             console.log(url);
-            encode(url, {}, (error, result) => tellMeWhatThisIs(result));
+            encode(url, {}, (error, result) => queryRekognition(result));
         }
     }
 });

@@ -32,8 +32,8 @@ var params = {
 };
 
 // define group or channel that we are posting to
-var channelOrGroup = 'group';
-var postOrGroupName = 'jono_button_test';
+var channelOrGroup = 'channel';
+var postOrGroupName = 'general';
 
 // function to send a message to either a group (private channel) or a channel
 function sendMessage(messageText) {
@@ -44,29 +44,31 @@ function sendMessage(messageText) {
     }
 }
 
-function tellMeWhatThisIs(base64Image) {
+// send image to AWS Rekognition and send a message with the results
+function queryRekognition(base64Image) {
     rekognition.detectLabels({
         Image: {
             Bytes: base64Image
         }
     }, function (err, data) {
-        if (err) console.log(err);else sendMessage("That looks like " + data.Labels[0].Name + " or a " + data.Labels[1].Name + " to me");
+        if (err) console.log(err);else sendMessage("That looks like " + data.Labels[0].Name.toLocaleLowerCase() + " or a " + data.Labels[1].Name.toLocaleLowerCase() + " to me");
     });
 }
 
+// listen for messages to
 bot.on('message', function (data) {
     // all ingoing events https://api.slack.com/rtm
-    console.log(data);
+    //console.log(data);
 
     // check that the message has text
     if (data.text) {
         // start a new game
-        if (data.text.toUpperCase().startsWith('@WHAT-IS-THIS-BOT WHAT IS THIS?')) {
+        if (data.text.toUpperCase().startsWith('@WHAT-IS-THIS-BOT WHAT IS THIS')) {
             console.log('we have a match');
-            var url = data.text.substring('@WHAT-IS-THIS-BOT WHAT IS THIS?'.length + 2, data.text.length - 1);
+            var url = data.text.substring('@WHAT-IS-THIS-BOT WHAT IS THIS'.length + 2, data.text.length - 1);
             console.log(url);
             (0, _nodeBase64Image.encode)(url, {}, function (error, result) {
-                return tellMeWhatThisIs(result);
+                return queryRekognition(result);
             });
         }
     }
