@@ -21,8 +21,8 @@ const params = {
 };
 
 // define group or channel that we are posting to
-const channelOrGroup = 'channel';
-const postOrGroupName = 'general';
+const channelOrGroup = 'group';
+const postOrGroupName = 'geeking_it_up';
 
 // function to send a message to either a group (private channel) or a channel
 function sendMessage(messageText) {

@@ -32,8 +32,8 @@ var params = {
 };
 
 // define group or channel that we are posting to
-var channelOrGroup = 'channel';
-var postOrGroupName = 'general';
+var channelOrGroup = 'group';
+var postOrGroupName = 'geeking_it_up';
 
 // function to send a message to either a group (private channel) or a channel
 function sendMessage(messageText) {
