@@ -20,4 +20,4 @@ Get a Slack bot api key
 
 Rename secret.dummy.js to secrets.js and enter your Slack token there 
 
-Run the script with `node dist/index.js`
+Run the script with `node dist/index.js > stdout.txt 2> stderr.txt &`
