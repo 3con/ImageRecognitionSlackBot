@@ -32,8 +32,8 @@ var params = {
 };
 
 // define group or channel that we are posting to
-var channelOrGroup = 'group';
-var postOrGroupName = 'geeking_it_up';
+var channelOrGroup = 'channel';
+var postOrGroupName = 'general';
 
 // function to send a message to either a group (private channel) or a channel
 function sendMessage(messageText) {
@@ -51,14 +51,14 @@ function queryRekognition(base64Image) {
             Bytes: base64Image
         }
     }, function (err, data) {
-        if (err) console.log(err);else sendMessage("That looks like " + data.Labels[0].Name.toLocaleLowerCase() + " or a " + data.Labels[1].Name.toLocaleLowerCase() + " to me");
+        if (err) console.log(err);else sendMessage("That looks like a " + data.Labels[0].Name.toLocaleLowerCase() + " or a " + data.Labels[1].Name.toLocaleLowerCase() + " to me");
     });
 }
 
 // listen for messages to
 bot.on('message', function (data) {
     // all ingoing events https://api.slack.com/rtm
-    //console.log(data);
+    console.log(data);
 
     // check that the message has text
     if (data.text) {
