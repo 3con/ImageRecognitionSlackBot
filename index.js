@@ -3,6 +3,7 @@ import Bot from "slackbots";
 import {TOKEN} from "./secrets";
 import {encode} from 'node-base64-image';
 
+// change this to the region you want
 AWS.config.update({region: 'eu-west-1'});
 
 const rekognition = new AWS.Rekognition();

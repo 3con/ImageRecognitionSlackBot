@@ -14,6 +14,7 @@ var _nodeBase64Image = require("node-base64-image");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// change this to the region you want
 _awsSdk2.default.config.update({ region: 'eu-west-1' });
 
 var rekognition = new _awsSdk2.default.Rekognition();
